@@ -19,6 +19,9 @@
       <li {% if section == "upload" %}class="selected"{% endif %}>
         <a href="{% url "pdf_upload" %}">Upload</a>
       </li>
+      <li {% if section == "pdf_list" %}class="selected"{% endif %}>
+        <a href="{%url "pdf" %}">All Files</a>
+      </li>
     </ul>
     {% endif %}
     <span class="user">
