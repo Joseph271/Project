@@ -17,7 +17,7 @@
         <a href="#">Search</a>
       </li>
       <li {% if section == "upload" %}class="selected"{% endif %}>
-        <a href="#">Upload</a>
+        <a href="{% url "pdf_upload" %}">Upload</a>
       </li>
     </ul>
     {% endif %}

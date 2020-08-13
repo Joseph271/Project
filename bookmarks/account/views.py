@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm,UserRegistrationForm
 from django.contrib import messages
-from .models import Profile
+from .models import Profile,Pdfs
 from .forms import LoginForm, UserRegistrationForm, \
-                   UserEditForm, ProfileEditForm
+                   UserEditForm, ProfileEditForm,PdfForm
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 
@@ -81,4 +82,29 @@ def edit(request):
                   {'user_form': user_form,
                    'profile_form': profile_form})
 
-    
+@login_required   
+def upload(request):
+    context = {}
+    if request.method == 'POST':
+        uploaded_file = request.FILES['document']
+        fs = FileSystemStorage()
+        name = fs.save(uploaded_file.name, uploaded_file)
+        context['url'] = fs.url(name)
+    return render(request, 'account/upload.html', context)
+
+@login_required
+def pdf_list(request):
+    pdfs = Pdfs.objects.all()
+
+    return render(request, 'account/pdf_list.html', {'pdfs': pdfs})
+
+@login_required
+def pdf_upload(request):
+    if request.method == 'POST':
+        form = PdfForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("pdf")
+    else:
+        form = PdfForm()
+    return render(request, 'account/upload_pdf.html', {'form': form})
