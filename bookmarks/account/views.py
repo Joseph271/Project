@@ -100,7 +100,7 @@ def pdf_list(request):
 
 @login_required
 def pdf_upload(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         form = PdfForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
