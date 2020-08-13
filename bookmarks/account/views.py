@@ -6,7 +6,7 @@ from .forms import LoginForm,UserRegistrationForm
 from django.contrib import messages
 from .models import Profile,Pdfs
 from .forms import LoginForm, UserRegistrationForm, \
-                   UserEditForm, ProfileEditForm,PdfForm
+                   UserEditForm, ProfileEditForm,PdfForm,SearchForm
 from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
@@ -100,7 +100,7 @@ def pdf_list(request):
 
 @login_required
 def pdf_upload(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         form = PdfForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -108,3 +108,17 @@ def pdf_upload(request):
     else:
         form = PdfForm()
     return render(request, 'account/upload_pdf.html', {'form': form})
+
+@login_required
+def pdf_search(request):
+    
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            name=form.cleaned_data['subject']
+            pdfs=Pdfs.objects.filter(subject__icontains=name)
+            return render(request, 'account/pdf_search.html', {'pdfs': pdfs,})
+            
+    else:
+        form = SearchForm()
+    return render(request, 'account/pdf_search.html', {'form': form,})

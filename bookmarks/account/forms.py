@@ -34,3 +34,7 @@ class PdfForm(forms.ModelForm):
     class Meta:
         model = Pdfs
         fields = ('university', 'branch', 'subject', 'pdf')
+class SearchForm(forms.ModelForm):
+    class Meta:
+        model = Pdfs
+        fields = ( 'subject',)
