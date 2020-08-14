@@ -18,5 +18,6 @@ path('register/', views.register, name='register'),
 path('edit/', views.edit, name='edit'),
 path('upload/', views.pdf_upload, name='pdf_upload'),
 path('pdf/',views.pdf_list,name='pdf'),
+path('search/',views.pdf_search,name='pdf_search'),
 ]
 

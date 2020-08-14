@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}View Search Results pdf{% endblock %}
+
+{% block content %}
+<h2> PDF List</h2>
+<p>
+    <a href="{% url 'pdf_upload' %}" class="btn btn-primary">Upload Pdf</a>
+</p>
+<form method="POST" action="{% url 'pdf_search' %}" >
+    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Submit Subject Name</button>
+</form>
+<div class="table-responsive">
+<table class="table mb-0" >
+     <thead >
+    <tr>
+        <th>University</th>
+        <th>Branch</th>
+        <th>Subject</th>
+        <th>Download</th>
+    </tr>
+     </thead>
+    {% for p in pdfs %}
+    <tr>
+            <td>{{p.university}}</td>
+            <td>{{p.branch}}</td>
+            <td>{{p.subject}}</td>
+            <td><a href="{{p.pdf.url}}" class="btn btn-primary btn-sm" target="_blank">download</a></td>
+        {% endfor %}
+    </tr>
+</table>
+</div>
+
+{% endblock %}
