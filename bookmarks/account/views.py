@@ -117,7 +117,7 @@ def pdf_search(request):
         if form.is_valid():
             name=form.cleaned_data['subject']
             pdfs=Pdfs.objects.filter(subject__icontains=name)
-            return render(request, 'account/pdf_search.html', {'pdfs': pdfs,})
+            return render(request, 'account/pdf_search.html', {'pdfs': pdfs,'form':form})
             
     else:
         form = SearchForm()
